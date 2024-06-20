@@ -12,9 +12,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 
+import lombok.NoArgsConstructor;
+
 @DataMongoTest
 @ExtendWith(SpringExtension.class)
+@NoArgsConstructor
 public class MongoDbSpringIntegrationTest {
+	
+	
     @DisplayName("given object to save"
         + " when save object using MongoDB template"
         + " then object is saved")
@@ -29,7 +34,6 @@ public class MongoDbSpringIntegrationTest {
         mongoTemplate.save(objectToSave, "collection");
 
         // then
-        System.out.println(mongoTemplate.findAll(DBObject.class, "collection"));
         assertThat(mongoTemplate.findAll(DBObject.class, "collection")).extracting("key")
             .containsOnly("value");
     }

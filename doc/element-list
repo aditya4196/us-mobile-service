@@ -1,0 +1,12 @@
+com.demo.usmobile
+com.demo.usmobile.config
+com.demo.usmobile.controller
+com.demo.usmobile.cycle
+com.demo.usmobile.dailyusage
+com.demo.usmobile.documents
+com.demo.usmobile.dto
+com.demo.usmobile.exception
+com.demo.usmobile.repository
+com.demo.usmobile.service
+com.demo.usmobile.user
+com.demo.usmobile.utility
