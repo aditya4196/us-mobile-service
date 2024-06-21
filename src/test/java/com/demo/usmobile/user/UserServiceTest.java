@@ -34,7 +34,6 @@ import com.demo.usmobile.service.UserService;
 import com.github.fge.jsonpatch.JsonPatchException;
 
 
-
 @DataMongoTest
 @Testcontainers
 @TestPropertySource(locations="classpath:application-test.properties")
@@ -48,7 +47,6 @@ public class UserServiceTest {
     @InjectMocks
     private UserService userService;
 	
-    
     @DisplayName("Find User by id")
     @Test
     public void UserService_findUserById_Success() {

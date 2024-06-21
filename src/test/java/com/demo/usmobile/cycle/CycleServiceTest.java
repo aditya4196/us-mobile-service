@@ -131,7 +131,7 @@ public class CycleServiceTest {
 	    			anyString(), anyString(), any())).thenReturn(0);
 	    	when(cycleRepository.save(any())).thenReturn(Mockito.mock(Cycle.class));
 	    	
-	    	Cycle cycle = cycleService.subscribeBilling(cycleobj);
+	    	Cycle cycle = cycleService.addCycle(cycleobj);
 	    	Assertions.assertNotNull(cycle);
 	    }
 	    
@@ -151,7 +151,7 @@ public class CycleServiceTest {
 	    			anyString(), anyString(), any())).thenReturn(0);
 	    	when(cycleRepository.save(any())).thenReturn(Mockito.mock(Cycle.class));
 	    	
-	    	Assertions.assertThrows(UserNotFoundException.class, () -> cycleService.subscribeBilling(cycleobj));
+	    	Assertions.assertThrows(UserNotFoundException.class, () -> cycleService.addCycle(cycleobj));
 	    }
 	    
 	    @DisplayName("Add a cycle throws CycleCollisionException")
@@ -170,7 +170,7 @@ public class CycleServiceTest {
 	    			anyString(), anyString(), any())).thenReturn(1);
 	    	when(cycleRepository.save(any())).thenReturn(Mockito.mock(Cycle.class));
 	    	
-	    	Assertions.assertThrows(CycleCollisionException.class, () -> cycleService.subscribeBilling(cycleobj));
+	    	Assertions.assertThrows(CycleCollisionException.class, () -> cycleService.addCycle(cycleobj));
 	    }
 	
 

@@ -15,6 +15,9 @@ import com.demo.usmobile.repository.DailyUsageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Daily Usage Service Layer
+ */
 @Slf4j
 @Service
 public class DailyUsageService {
@@ -26,10 +29,10 @@ public class DailyUsageService {
 	private DailyUsageRepository dailyUsageRepository;
 
 	/**
-	 * 
+	 * gets the Current Daily Usages By userid and mdn
 	 * @param dataRequestDTO
 	 * @param pageable
-	 * @return
+	 * @return Paginated DailyUsages
 	 * @throws RecordNotFoundException
 	 */
 	public Page<DailyUsage> getCurrentDailyUsageByUserIdAndMdn(final DataRequestDTO dataRequestDTO, final Pageable pageable) throws RecordNotFoundException {

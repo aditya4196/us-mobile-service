@@ -84,7 +84,9 @@ For building and running the application you need:
    http://localhost:8080
    ```
 
-For detailed list of all test and main classes and methods, please load the doc/index.html (javadocs) file into the browser
+5. For all APIs testing Collection, please find the `api-documentation-postman.json` present in the root folder of the project which can be imported into Postman
+
+6. For detailed list of all test and main classes and methods, please load the `doc/index.html` (javadocs) file into the browser
 
 ## Running the Test Framework
 

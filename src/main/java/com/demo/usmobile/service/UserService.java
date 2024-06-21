@@ -1,13 +1,16 @@
 package com.demo.usmobile.service;
 
-import java.util.List;
+
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.demo.usmobile.documents.User;
 import com.demo.usmobile.dto.CreateUserDTO;
+import com.demo.usmobile.exception.ModificationProhibitedException;
 import com.demo.usmobile.exception.UserAlreadyExistsException;
 import com.demo.usmobile.exception.UserNotFoundException;
 import com.demo.usmobile.repository.UserRepository;
@@ -19,13 +22,22 @@ import com.github.fge.jsonpatch.JsonPatchException;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * User Service Layer
+ */
 @Service
 @Slf4j
 public class UserService {
 	
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
+    private boolean isPasswordProvided;
 
+    /**
+     * 
+     * @param userRepository
+     * @param objectMapper
+     */
     public UserService(UserRepository userRepository, ObjectMapper objectMapper) {
         this.userRepository = userRepository;
         this.objectMapper = objectMapper;
@@ -33,9 +45,9 @@ public class UserService {
 	
 
 	/**
-	 * 
+	 * creates the user
 	 * @param userdto
-	 * @return
+	 * @return User
 	 */
 	public User createUser(final CreateUserDTO userdto) {
 			if(userRepository.findByEmail(userdto.getEmail()).isPresent()) {
@@ -60,8 +72,9 @@ public class UserService {
 	
 	/**
 	 * 
+	 * finds user by Id
 	 * @param userId
-	 * @return
+	 * @return Optional<User>
 	 */
 	public Optional<User> findUserById(final String userId){
 		final Optional<User> user = userRepository.findById(userId);
@@ -74,12 +87,12 @@ public class UserService {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * gets all users
+	 * @return Paginated Users
 	 */
-	public List<User> getAllUsers(){
+	public Page<User> getAllUsers(Pageable pageable){
 
-		final List<User> users = userRepository.findAll();
+		final Page<User> users = userRepository.findAll(pageable);
 		if(users.isEmpty()) {
 			log.info("no users found");
 			throw new UserNotFoundException("No users present");
@@ -89,20 +102,37 @@ public class UserService {
 	
 	
 	/**
-	 * 
+	 * updates an existing user properties except password
 	 * @param userId
 	 * @param patch
-	 * @return
+	 * @return User
 	 * @throws JsonProcessingException
 	 * @throws JsonPatchException
+	 * @throws ModificationProhibitedException 
 	 */
-	public User updateUser(String userId, JsonPatch patch) throws JsonProcessingException, JsonPatchException{
+	public User updateUser(String userId, JsonPatch patch) throws JsonProcessingException, JsonPatchException, ModificationProhibitedException{
 		final Optional<User> fetchedUser = findUserById(userId);
-		var jsonPatchList = objectMapper.convertValue(patch, JsonNode.class);
-		jsonPatchList.forEach((currPatch) -> {
-			if(currPatch.get("path").equals("password")) {
-				log.error("Password cannot be updated");			}
-		});
+		JsonNode jsonPatchList = objectMapper.convertValue(patch, JsonNode.class);
+		
+		
+		if (jsonPatchList.isArray()) {
+            for (JsonNode patchNode : jsonPatchList) {
+                // Fetch the "path" field from each object node in the array
+                JsonNode pathNode = patchNode.get("path");
+                if (pathNode != null && pathNode.isTextual()) {
+                    String path = pathNode.asText();
+                    if(path.equals("/password")) {
+                    	isPasswordProvided = true;
+                    	break;
+                    }
+                }
+            }
+        }
+		
+		if(isPasswordProvided) {
+			isPasswordProvided = false;
+			throw new ModificationProhibitedException("Password cannot be modified, Please resend the request with either FirstName, LastName or Email");
+		}
 		
 		if(fetchedUser.isPresent()) {
 			User patchedUser = fetchedUser.get();
@@ -113,6 +143,14 @@ public class UserService {
 		}
 	}
 	
+	/**
+	 * applies the patch to the existing user to modify properties
+	 * @param patch
+	 * @param targetUser
+	 * @return User
+	 * @throws JsonPatchException
+	 * @throws JsonProcessingException
+	 */
 	public User applyPatchToUser(
 			  JsonPatch patch, User targetUser) throws JsonPatchException, JsonProcessingException {
 				

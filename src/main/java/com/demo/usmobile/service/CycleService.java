@@ -19,6 +19,9 @@ import com.demo.usmobile.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Cycle Service Layer
+ */
 @Service
 @Slf4j
 public class CycleService {
@@ -30,9 +33,9 @@ public class CycleService {
 	private UserRepository userRepository;
 	
 	/**
-	 * 
+	 * get the latest Cycle which belongs to userId and Mdn
 	 * @param userRequest
-	 * @return
+	 * @return Cycle
 	 * @throws RecordNotFoundException
 	 */
 	public Cycle getCurrentCycle(final DataRequestDTO userRequest) throws RecordNotFoundException {
@@ -40,6 +43,13 @@ public class CycleService {
 		return getCurrentCycleByDate(userRequest, currentDate);
 	}
 	
+	/**
+	 * get cycle by userid and mdn for following date
+	 * @param userRequest
+	 * @param currentDate
+	 * @return Cycle
+	 * @throws RecordNotFoundException
+	 */
 	public Cycle getCurrentCycleByDate(final DataRequestDTO userRequest,final Date currentDate) throws RecordNotFoundException {
 
 		final Optional<Cycle> cycleDTO = cycleRepository.findByUserIdAndMdnAndStartDateLessThanEqualAndEndDateGreaterThanEqual(userRequest.getUserId(), userRequest.getMdn(), currentDate, currentDate);
@@ -52,9 +62,9 @@ public class CycleService {
 	}
 	
 	/**
-	 * 
+	 * get All Cycles by userId and mdn
 	 * @param userRequest
-	 * @return
+	 * @return Paginated Cycles
 	 * @throws RecordNotFoundException
 	 */
 	public Page<Cycle> getAllCyclesByUserIdAndMdn(final DataRequestDTO userRequest, Pageable pageable) throws RecordNotFoundException{
@@ -69,12 +79,12 @@ public class CycleService {
 	}
 
 	/**
-	 * 
-	 * @param cyclegetUserId
-	 * @return
+	 * add a Cycle for following userId
+	 * @param cycle
+	 * @return Cycle
 	 * @throws CycleCollisionException
 	 */
-	public Cycle subscribeBilling(final Cycle cycle) throws CycleCollisionException {
+	public Cycle addCycle(final Cycle cycle) throws CycleCollisionException {
 		if(!userRepository.existsById(cycle.getUserId())) {
 			log.error("User with userId {} not found to subscribe for billing", cycle.getUserId());
 			throw new UserNotFoundException("User with userId not found to subscribe for billing");
