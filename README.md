@@ -1,5 +1,7 @@
 # US Mobile App
 
+[![Push Docker Image](https://github.com/aditya4196/us-mobile-service/actions/workflows/docker-image.yml/badge.svg)](https://github.com/aditya4196/us-mobile-service/actions/workflows/docker-image.yml)
+
 This is a [Spring Boot](http://projects.spring.io/spring-boot/) microservice which consists of crucial endpoints with respect to Users Registration, Billing Cycle Subscription and Retrieving Daily Usage Statistics
 
 ### Contents
