@@ -6,18 +6,38 @@ This is a [Spring Boot](http://projects.spring.io/spring-boot/) microservice whi
 
 ### Contents
 
-- [Functionalities](#functionalities)
+- [Service Architecture](#service-architecture)
 - [Requirements](#requirements)
 - [Local Installation and Running](#running-the-application-locally)
+- [Testing](#running-the-test-framework)
+- [Credentials](#credentials)
+- [Github CI](#github-ci)
 
+## Service Architecture
 
-## Functionalities
+There are 3 entities User, Cycle and DailyUsage
 
-The app consists of 3 Major Entities - User, Cycle, Daily Usage
+MongoDB Schema :-
 
-#### User:-
-Attributes:- FirstName, LastName, Email, Password
-APIs:-
+```
+-- User --
+id, firstName. lastName, email, password
+-- User Indexes --
+id, email
+
+-- Cycle --
+id, userId, mdn, startDate, endDate
+-- Cycle Indexes --
+id, (userId, mdn, startDate, endDate)
+
+-- DailyUsage --
+id, userId, mdn, usageDate, usedInMb
+-- DailyUsage Indexes --
+id, (userId, mdn, usageDate)
+```
+
+Architecture Service Diagram:-
+![Project Logo](images/arch.png)
 
 ## Requirements
 
@@ -30,62 +50,59 @@ For building and running the application you need:
 
 ## Running the application locally
 
-Run the below gradle task command from the root location to clean and build the project
+1. Run the below gradle task command from the root location to clean and build the project
 
-```
-./gradlew clean build
-```
+   ```
+   ./gradlew clean build -x test
+   ```
 
-Run the spring boot application
+2. Run the spring boot application
 
-```
-./gradlew bootRun
-```
+   ```
+   ./gradlew bootRun
+   ```
 
 ## Running the application on Docker
 
-Run the below command at the root location to build the docker image
+1. Start the Docker Desktop locally
 
-```
-docker build -t us-mobile-service:latest .
-```
+2. Run the below command at the root location to build the docker image
 
-Below command to start the container with the generated docker image
+   ```
+   docker build -t us-mobile-service:latest .
+   ```
 
-```
-docker build -t us-mobile-service:latest .
-```
+3. Below command to start the container with the generated docker image
 
-In both the above cases, you can access the spring boot application at below url
+   ```
+   docker run -d -p 8080:8080 us-mobile-service:latest
+   ```
 
-```
-http://localhost:8080
-```
+4. In both the above cases, you can access the spring boot application at below url
 
-## Running the test cases
-
-In the src/main/resources/application.properties file
-
-- uncomment the below properties
-
-```
-#### testcontainer mongo configs
-#spring.data.mongodb.database=OAuth2Sample
-#spring.data.mongodb.port=${mongodb.container.port}
-#spring.data.mongodb.host=localhost
-#spring.data.mongodb.auto-index-creation=true
-```
-
-- comment the below properties
-
-```
-#### main mongo configs
-spring.application.name=usmobile
-spring.data.mongodb.uri=mongodb+srv://adityajadhavncsu:2NH6PU3eJoGPr9Gs@cluster0.xqzlrqf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-spring.data.mongodb.database=usmobile
-```
+   ```
+   http://localhost:8080
+   ```
 
 For detailed list of all test and main classes and methods, please load the doc/index.html (javadocs) file into the browser
+
+## Running the Test Framework
+
+1. Keep the Docker Desktop running on local
+2. `src/test/java` contains the all the below JUnit test classes which refers the mongo test container properties in `src/test/resources/application-test.properties`
+
+## Credentials
+
+1. For the mongoURI string, please request the mongoURI.txt from the owner
+2. Set the value from the mongoURI.txt file to the below specified property in `src/main/resources/application.properties`
+
+   ```
+   spring.application.name=usmobile
+   spring.data.mongodb.uri={{Value from mongoURI.txt}}
+   spring.data.mongodb.database=usmobile
+   ```
+
+## Github CI
 
 ## Copyright
 
