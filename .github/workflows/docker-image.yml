@@ -7,15 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Login to Github Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.TOKEN }}
-      - name: Build the Docker image
-        run: |
-          docker build . --file Dockerfile --tag ghcr.io/usmobile/us-mobile-service:latest
-          docker push ghcr.io/usmobile/us-mobile-service:latest
-          docker run ghcr.io/usmobile/us-mobile-service:latest
+      - name: Login to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PWD: ${{ secrets.DOCKER_PWD }}
+        run:
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PWD
+      - name: Build the Docker Image
+        run: docker build . --file Dockerfile --tag usmobile/us-mobile-service:latest
+      - name: Push the Docker Image   
+        run: docker push usmobile/us-mobile-service:latest
         
