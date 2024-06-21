@@ -7,9 +7,7 @@ This is a [Spring Boot](http://projects.spring.io/spring-boot/) microservice whi
 - [Functionalities](#functionalities)
 - [Requirements](#requirements)
 - [Local Installation and Running](#running-the-application-locally)
-- [Running the Docker Container](#docker)
-- [Testing Framework](#testing)
-- [Credentials](#credentials)
+
 
 ## Functionalities
 

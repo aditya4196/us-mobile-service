@@ -37,6 +37,11 @@ public class CycleService {
 	 */
 	public Cycle getCurrentCycle(final DataRequestDTO userRequest) throws RecordNotFoundException {
 		final Date currentDate = new Date();
+		return getCurrentCycleByDate(userRequest, currentDate);
+	}
+	
+	public Cycle getCurrentCycleByDate(final DataRequestDTO userRequest,final Date currentDate) throws RecordNotFoundException {
+
 		final Optional<Cycle> cycleDTO = cycleRepository.findByUserIdAndMdnAndStartDateLessThanEqualAndEndDateGreaterThanEqual(userRequest.getUserId(), userRequest.getMdn(), currentDate, currentDate);
 		if(!cycleDTO.isPresent()) {
 			log.error("No Billing Cycle for userId {} and Phone Number {} found",userRequest.getUserId(), userRequest.getMdn());
@@ -81,7 +86,7 @@ public class CycleService {
 			throw new CycleCollisionException("New cycle for user id "+cycle.getUserId()+" mdn "+cycle.getMdn()+ " start date is less than the ongoing cycle end date");
 		}	
 		log.info("cycle object to be added successfully");
-		return cycleRepository.insert(cycle);
+		return cycleRepository.save(cycle);
 	}
 	
 

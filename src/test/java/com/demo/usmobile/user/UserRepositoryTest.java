@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.demo.usmobile.MongoTestConfig;
@@ -17,6 +18,7 @@ import com.demo.usmobile.repository.UserRepository;
 
 @DataMongoTest
 @Testcontainers
+@TestPropertySource(locations="classpath:application-test.properties")
 @ContextConfiguration(classes = MongoTestConfig.class)
 @RunWith(MockitoJUnitRunner.class)
 public class UserRepositoryTest {

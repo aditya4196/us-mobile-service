@@ -1,11 +1,15 @@
 FROM amazoncorretto:17-alpine-jdk
 
-ARG JAR_FILE=target/*.jar
+COPY ./ /tmp
 
-COPY ${JAR_FILE} app.jar
+WORKDIR /tmp
 
-ENTRYPOINT ["java","-jar","/app.jar"]
+EXPOSE 8080
 
+RUN chmod +x ./gradlew
 
+RUN ./gradlew build
+
+ENTRYPOINT ["./gradlew", "bootRun"]
 
 

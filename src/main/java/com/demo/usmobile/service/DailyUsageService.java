@@ -44,8 +44,6 @@ public class DailyUsageService {
 			throw new RecordNotFoundException("No daily Usage records for the cycle for userId " + dataRequestDTO.getUserId() + " and phone number " + dataRequestDTO.getMdn());
 		}			
 		return dailyUsagePages;
-
-
 	}
 	
 	

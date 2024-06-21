@@ -21,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.demo.usmobile.MongoTestConfig;
@@ -32,14 +33,13 @@ import com.demo.usmobile.repository.UserRepository;
 import com.demo.usmobile.service.UserService;
 import com.github.fge.jsonpatch.JsonPatchException;
 
-import lombok.extern.slf4j.Slf4j;
 
 
 @DataMongoTest
 @Testcontainers
+@TestPropertySource(locations="classpath:application-test.properties")
 @ContextConfiguration(classes = MongoTestConfig.class)
 @RunWith(MockitoJUnitRunner.class)
-@Slf4j
 public class UserServiceTest {
 	
     @Mock
@@ -51,9 +51,8 @@ public class UserServiceTest {
     
     @DisplayName("Find User by id")
     @Test
-    public void UserService_findUserById_ReturnsUser() {
+    public void UserService_findUserById_Success() {
     	
-    	log.info("running now ");
     	User user = User.builder()
     			.firstName("Aditya")
     			.lastName("Jadhav")
@@ -81,7 +80,7 @@ public class UserServiceTest {
      
 	@DisplayName("Create a user")
 	@Test
-	public void userRepository_createUserTestSuccess() throws IOException {
+	public void userRepository_createUser_Success() throws IOException {
 		
 		//Arrange
 		CreateUserDTO inputUserDTO = CreateUserDTO.builder()
