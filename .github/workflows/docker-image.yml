@@ -16,6 +16,6 @@ jobs:
       - name: Build the Docker image
         run: |
           docker build . --file Dockerfile --tag ghcr.io/usmobile/us-mobile-service:latest
-          docker run ghcr.io/usmobile/us-mobile-service:latest
           docker push ghcr.io/usmobile/us-mobile-service:latest
+          docker run ghcr.io/usmobile/us-mobile-service:latest
         
