@@ -14,7 +14,7 @@ jobs:
         run:
           docker login -u $DOCKER_USERNAME -p $DOCKER_PWD
       - name: Build the Docker Image
-        run: docker build . --file Dockerfile --tag usmobile/us-mobile-service:latest
+        run: docker build . --file Dockerfile --tag adi4196/us-mobile-service:latest
       - name: Push the Docker Image   
-        run: docker push usmobile/us-mobile-service:latest
+        run: docker push adi4196/us-mobile-service:latest
         
