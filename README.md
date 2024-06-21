@@ -12,6 +12,7 @@ This is a [Spring Boot](http://projects.spring.io/spring-boot/) microservice whi
 - [Testing](#running-the-test-framework)
 - [Credentials](#credentials)
 - [Github CI](#github-ci)
+- [Improvements](#improvements)
 
 ## Service Architecture
 
@@ -105,6 +106,21 @@ For building and running the application you need:
    ```
 
 ## Github CI
+
+Generated a Github Workflow to build the Docker image and push it to docker hub as `adi4196/us-mobile-service:latest` which can be changed to any other docker hub problem and accordingly change in the `.github/workflows/docker-image.yml`
+
+## Improvements 
+### My personal Improvments
+1. Could have written the Test cases more efficiently
+2. Could have fixed the gradle test task (it seems failing due to some gradle and jdk version compatibility which I couldnt fix, but if ran as normal JUnit from IDE, it works)
+3. Could have utilized javadocs to be more detailed in the comments
+
+### DB Improvements
+1. Would use Redis Cache to make searches more quick and less IO operations
+
+### Future Work
+1. To migrate it to Kubernetes for container orchestration
+2. Handle Secrets in Vault and Configurations using Spring Cloud Config for Externalization
 
 ## Copyright
 
