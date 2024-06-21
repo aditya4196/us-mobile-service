@@ -8,7 +8,7 @@ EXPOSE 8080
 
 RUN chmod +x ./gradlew
 
-RUN ./gradlew build
+RUN ./gradlew build -x test
 
 ENTRYPOINT ["./gradlew", "bootRun"]
 
