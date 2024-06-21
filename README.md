@@ -16,8 +16,8 @@ This is a [Spring Boot](http://projects.spring.io/spring-boot/) microservice whi
 The app consists of 3 Major Entities - User, Cycle, Daily Usage
 
 #### User:-
-
-Attributes:- FirstName, LastName,
+Attributes:- FirstName, LastName, Email, Password
+APIs:-
 
 ## Requirements
 
