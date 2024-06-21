@@ -15,7 +15,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build the Docker image
         run: |
-          docker build . --file Dockerfile --tag ghcr.io/usmobile/my-image-name:$(date +%s)
-          docker run ghcr.io/usmobile/my-image-name:$(date +%s)
-          docker push ghcr.io/usmobile/my-image-name:$(date +%s)
+          docker build . --file Dockerfile --tag ghcr.io/usmobile/us-mobile-service:latest
+          docker run ghcr.io/usmobile/us-mobile-service:latest
+          docker push ghcr.io/usmobile/us-mobile-service:latest
         
